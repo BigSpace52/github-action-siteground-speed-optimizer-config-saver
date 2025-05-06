@@ -13,6 +13,9 @@ inputs:
   ssh_user:
     description: ''
     required: true
+  ssh_key:
+    description: ''
+    required: true
   wp_cli_path:
     description: ''
     required: false
@@ -23,6 +26,28 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Setup SSH directory
+      run: |
+        mkdir -p ~/.ssh
+
+    - name: Add SSH key for SiteGround
+      run: |
+        echo "${{ inputs.ssh_key }}" > ~/.ssh/siteground
+        chmod 600 ~/.ssh/siteground
+
+    - name: Setup SSH config for SiteGround
+      run: |
+        echo "Host siteground
+          HostName ${{ inputs.ssh_host }}
+          User ${{ inputs.ssh_user }}
+          IdentityFile ~/.ssh/siteground
+          IdentitiesOnly yes
+          StrictHostKeyChecking yes" > ~/.ssh/config
+
+    - name: Run command on SiteGround
+      run: |
+        ssh siteground 'echo "✅ Verbonden met SiteGround"'
+
     - name: Checkout repository
       uses: actions/checkout@v4
 
