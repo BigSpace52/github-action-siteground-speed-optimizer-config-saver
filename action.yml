@@ -26,10 +26,33 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup SSH config for SiteGround
+    - name: Create SSH directory
       run: |
         mkdir -p ~/.ssh
+      shell: bash
+
+    - name: Add SSH private key and set permissions
+      run: |
         echo "${{ inputs.ssh_key }}" > ~/.ssh/siteground
+        chmod 600 ~/.ssh/siteground
+      shell: bash
+
+    - name: Add SiteGround host key to known_hosts
+      run: |
+        ssh-keyscan -H -p 18765 ${{ inputs.ssh_host }} >> ~/.ssh/known_hosts
+        chmod 644 ~/.ssh/known_hosts
+      shell: bash
+
+    - name: Create SSH config for SiteGround alias
+      run: |
+        echo "Host siteground
+          HostName ${{ inputs.ssh_host }}
+          User ${{ inputs.ssh_user }}
+          Port 18765 # Assuming this port is correct
+          IdentityFile ~/.ssh/siteground
+          IdentitiesOnly yes
+          StrictHostKeyChecking yes" > ~/.ssh/config
+        chmod 600 ~/.ssh/config # Good practice for config file permissions
       shell: bash
 
     - name: Run command on SiteGround
