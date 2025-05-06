@@ -48,7 +48,7 @@ runs:
         echo "Host siteground
           HostName ${{ inputs.ssh_host }}
           User ${{ inputs.ssh_user }}
-          Port 18765 # Assuming this port is correct
+          Port 18765
           IdentityFile ~/.ssh/siteground
           IdentitiesOnly yes
           StrictHostKeyChecking yes" > ~/.ssh/config
