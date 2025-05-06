@@ -33,7 +33,7 @@ runs:
         echo "${{ inputs.ssh_key }}" > ~/.ssh/siteground
         chmod 600 ~/.ssh/siteground
 
-        ssh-keyscan -H ${{ secrets.SITEGROUND_HOST }} >> ~/.ssh/known_hosts
+        ssh-keyscan -H ${{ inputs.ssh_host }} >> ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
 
         echo "Host siteground
