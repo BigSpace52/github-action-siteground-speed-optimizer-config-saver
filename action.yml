@@ -1,0 +1,28 @@
+name: 'Saved SiteGround Speed Optimizer config to Git'
+description: 'A GitHub Action that saves SiteGround Speed Optimizer configuration to versioned JSON file in your repository.'
+author: 'pronamic'
+
+branding:
+  icon: 'download-cloud'
+  color: 'orange'
+
+inputs:
+  ssh_host:
+    description: ''
+    required: true
+  ssh_user:
+    description: ''
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Run save script
+      run: php ${{ github.action_path }}/save.php
+      shell: bash
+      env:
+        INPUT_SSH_HOST: ${{ inputs.ssh_host }}
+        INPUT_SSH_USER: ${{ inputs.ssh_user }}
