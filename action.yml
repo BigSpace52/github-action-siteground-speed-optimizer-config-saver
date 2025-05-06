@@ -29,8 +29,13 @@ runs:
     - name: Setup SSH config for SiteGround
       run: |
         mkdir -p ~/.ssh
+
         echo "${{ inputs.ssh_key }}" > ~/.ssh/siteground
         chmod 600 ~/.ssh/siteground
+
+        ssh-keyscan -H ${{ secrets.SITEGROUND_HOST }} >> ~/.ssh/known_hosts
+        chmod 644 ~/.ssh/known_hosts
+
         echo "Host siteground
           HostName ${{ inputs.ssh_host }}
           User ${{ inputs.ssh_user }}
