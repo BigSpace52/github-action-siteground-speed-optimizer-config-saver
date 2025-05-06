@@ -60,6 +60,13 @@ runs:
         ssh siteground 'echo "✅ Verbonden met SiteGround"'
       shell: bash
 
+    - name: Export SiteGround Speed Optimizer settings
+      run: |
+        result=$(ssh siteground "wp sg settings export")
+        echo "$result"
+        echo "::set-output name=settings::$result"
+      shell: bash
+
     - name: Checkout repository
       uses: actions/checkout@v4
 
