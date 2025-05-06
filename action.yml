@@ -13,6 +13,12 @@ inputs:
   ssh_user:
     description: ''
     required: true
+  wp_cli_path:
+    description: ''
+    required: false
+  wp_cli_url:
+    description: ''
+    required: false
 
 runs:
   using: 'composite'
