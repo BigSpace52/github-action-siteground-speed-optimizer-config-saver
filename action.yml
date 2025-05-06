@@ -26,27 +26,24 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup SSH directory
-      run: |
-        mkdir -p ~/.ssh
-
-    - name: Add SSH key for SiteGround
-      run: |
-        echo "${{ inputs.ssh_key }}" > ~/.ssh/siteground
-        chmod 600 ~/.ssh/siteground
-
     - name: Setup SSH config for SiteGround
       run: |
+        mkdir -p ~/.ssh
+        echo "${{ inputs.ssh_key }}" > ~/.ssh/siteground
+        chmod 600 ~/.ssh/siteground
         echo "Host siteground
           HostName ${{ inputs.ssh_host }}
           User ${{ inputs.ssh_user }}
+          Port 18765
           IdentityFile ~/.ssh/siteground
           IdentitiesOnly yes
           StrictHostKeyChecking yes" > ~/.ssh/config
+      shell: bash
 
     - name: Run command on SiteGround
       run: |
         ssh siteground 'echo "✅ Verbonden met SiteGround"'
+      shell: bash
 
     - name: Checkout repository
       uses: actions/checkout@v4
