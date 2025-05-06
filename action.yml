@@ -62,7 +62,7 @@ runs:
 
     - name: Export SiteGround Speed Optimizer settings
       run: |
-        result=$(ssh siteground "wp sg settings export")
+        result=$(ssh siteground "wp sg settings export --path=${{ inputs.wp_cli_path }}")
         echo "$result"
         echo "::set-output name=settings::$result"
       shell: bash
