@@ -81,7 +81,15 @@ $options = getopt(
 
 $file = $options['file'];
 
-$settings_hash = $options['settings'];
+$settings_result = $options['settings'];
+
+$position_newline = strpos( $settings_result, "\n" );
+
+if ( false !== $position_newline ) {
+    $settings_result = substr( $settings_result, 0, $position_newline );
+}
+
+$settings_hash = $settings_result;
 
 $settings_json = base64_decode( $settings_hash );
 
