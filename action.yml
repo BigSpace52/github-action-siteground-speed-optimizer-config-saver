@@ -25,7 +25,7 @@ inputs:
   file:
     description: ''
     required: false
-    default: 'sg-speed-optimizer.json'
+    default: 'sg-speed-optimizer-settings.json'
 
 runs:
   using: 'composite'
@@ -59,11 +59,6 @@ runs:
         chmod 600 ~/.ssh/config # Good practice for config file permissions
       shell: bash
 
-    - name: Run command on SiteGround
-      run: |
-        ssh siteground 'echo "✅ Verbonden met SiteGround"'
-      shell: bash
-
     - id: sg-settings-export
       name: Export SiteGround Speed Optimizer settings
       run: |
@@ -82,6 +77,3 @@ runs:
     - name: Run save script
       run: php ${{ github.action_path }}/save.php --file="${{ inputs.file }}" --settings="${{ steps.sg-settings-export.outputs.settings }}"
       shell: bash
-      env:
-        INPUT_SSH_HOST: ${{ inputs.ssh_host }}
-        INPUT_SSH_USER: ${{ inputs.ssh_user }}
