@@ -106,10 +106,6 @@ file_put_contents(
 	json_encode( $settings_object, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES )
 );
 
-var_dump( $settings_object );
-
-exit;
-
 /**
  * Check Git status.
  */
