@@ -72,11 +72,11 @@ function get_required_input( $name ) {
  * Setup.
  */
 $options = getopt(
-    '',
-    [
-        'file:',
-        'settings:',
-    ]
+	'',
+	[
+		'file:',
+		'settings:',
+	]
 );
 
 $file = $options['file'];
@@ -86,7 +86,7 @@ $settings_result = $options['settings'];
 $position_newline = strpos( $settings_result, "\n" );
 
 if ( false !== $position_newline ) {
-    $settings_result = substr( $settings_result, $position_newline );
+	$settings_result = substr( $settings_result, $position_newline );
 }
 
 $settings_hash = $settings_result;
@@ -155,10 +155,6 @@ run_command( "git push origin $branch" );
  * 
  * @link https://cli.github.com/manual/gh_pr_create
  */
-$timestamp = date( 'Y-m-d H:i' );
-
-$pr_title = "SiteGround Speed Optimizer settings update – $timestamp";
-
 $command = <<<EOT
 gh pr create \
 	--title "$pr_title" \
