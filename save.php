@@ -86,7 +86,7 @@ $settings_result = $options['settings'];
 $position_newline = strpos( $settings_result, "\n" );
 
 if ( false !== $position_newline ) {
-    $settings_result = substr( $settings_result, 0, $position_newline );
+    $settings_result = substr( $settings_result, $position_newline );
 }
 
 $settings_hash = $settings_result;
