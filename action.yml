@@ -69,7 +69,11 @@ runs:
       run: |
         result=$(ssh siteground "wp sg settings export --path=${{ inputs.wp_cli_path }}")
         echo "$result"
-        echo "settings=$result" >> $GITHUB_OUTPUT
+        {
+          echo "settings<<EOF"
+          echo "$result"
+          echo "EOF"
+        } >> "$GITHUB_OUTPUT"
       shell: bash
 
     - name: Checkout repository
