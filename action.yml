@@ -22,6 +22,10 @@ inputs:
   wp_cli_url:
     description: ''
     required: false
+  file:
+    description: ''
+    required: false
+    default: 'sg-speed-optimizer.json'
 
 runs:
   using: 'composite'
@@ -60,7 +64,8 @@ runs:
         ssh siteground 'echo "✅ Verbonden met SiteGround"'
       shell: bash
 
-    - name: Export SiteGround Speed Optimizer settings
+    - id: sg-settings-export
+      name: Export SiteGround Speed Optimizer settings
       run: |
         result=$(ssh siteground "wp sg settings export --path=${{ inputs.wp_cli_path }}")
         echo "$result"
@@ -71,7 +76,7 @@ runs:
       uses: actions/checkout@v4
 
     - name: Run save script
-      run: php ${{ github.action_path }}/save.php
+      run: php ${{ github.action_path }}/save.php --file="${{ inputs.settings_file }}" --settings="${{ steps.sg-settings-export.outputs.settings }}"
       shell: bash
       env:
         INPUT_SSH_HOST: ${{ inputs.ssh_host }}
